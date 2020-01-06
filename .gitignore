@@ -1,3 +1,7 @@
-node_modules/
+**/node_modules
+**/build
+**/old
 .DS_store
 .env
+.public.key
+.private.key

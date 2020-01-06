@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 export default function withAuth(ComponentToProtect) {
   return class extends Component {
@@ -11,12 +13,15 @@ export default function withAuth(ComponentToProtect) {
       };
     }
     componentDidMount() {
-      fetch('/checkToken')
-        .then(res => {
+      const instance = axios.create();
+      instance.defaults.headers.common['Authorization'] = Cookies.get('token');
+      instance.get('/checkToken').then(res => {
+          console.log(res);
           if (res.status === 200) {
             this.setState({ loading: false });
           } else {
             const error = new Error(res.error);
+            console.log(res);
             throw error;
           }
         })
@@ -27,17 +32,9 @@ export default function withAuth(ComponentToProtect) {
     }
     render() {
       const { loading, redirect } = this.state;
-      if (loading) {
-        return null;
-      }
-      if (redirect) {
-        return <Redirect to="/login" />;
-      }
-      return (
-        <React.Fragment>
-          <ComponentToProtect {...this.props} />
-        </React.Fragment>
-      );
+      if (loading) return null;
+      if (redirect) return <Redirect to="/login" />;
+      return <ComponentToProtect {...this.props} />;
     }
   }
 }
