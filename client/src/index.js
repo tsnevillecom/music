@@ -1,14 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './components/App/App';
-import * as serviceWorker from './serviceWorker';
+import "./index.scss";
 
-import { Provider } from 'react-redux';
-import store from './redux/store';
+import * as serviceWorker from "./serviceWorker";
 
-import './index.scss';
+import App from "./components/App/App";
+import { Provider } from "react-redux";
+import React from "react";
+import ReactDOM from "react-dom";
+import store from "./redux/store";
 
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 
 ReactDOM.render(
   <Provider store={store}>

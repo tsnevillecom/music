@@ -1,54 +1,54 @@
 import {
+  REMOVE_MESSAGE,
+  SEND_MESSAGE,
+  SET_AUTHENTICATED,
   SET_CURRENT_USER,
-  SET_LOGOUT_PENDING,
   SET_LOGIN_PENDING,
-  SET_AUTH_STATUS,
-  SET_AUTH_ERROR
-} from './types';
+  SET_LOGOUT_PENDING,
+  SET_REGISTER_PENDING,
+  SET_REGISTER_STATUS,
+  SET_VERIFY_PENDING,
+  SET_VERIFY_STATUS
+} from "../constants";
 
-import axios from 'axios';
-import Cookies from 'js-cookie';
-
-function callLoginApi(userName, password) {
-  return axios({
-    url: '/users/login',
-    method: 'post',
-    data: { userName, password },
-    responseType: 'json'
-  });
-}
-
-function callLogoutApi() {
-  return axios({
-    url: '/users/logout',
-    method: 'post',
-    headers: { Authorization: `Bearer ${Cookies.get('token')}` }
-  });
-}
-
-function callCheckAuthApi() {
-  return axios({
-    url: '/checkToken',
-    method: 'get',
-    headers: { Authorization: `Bearer ${Cookies.get('token')}` }
-  });
-}
-
-function callCurrentUserApi() {
-  return axios({
-    url: '/users/me',
-    method: 'get',
-    headers: { Authorization: `Bearer ${Cookies.get('token')}` }
-  });
-}
+import Cookies from "js-cookie";
+import { UsersService } from "../../services/users.service";
+import createMessage from "../factories/createMessage";
+import { message } from "antd";
 
 function clearToken() {
-  Cookies.remove('token');
+  Cookies.remove("token");
+}
+
+export function sendMessage(options) {
+  return dispatch => {
+    const messageConfig = createMessage(options);
+    dispatch({
+      type: SEND_MESSAGE,
+      message: messageConfig
+    });
+
+    const { content, duration, key, onClose, type } = messageConfig;
+
+    message[type](content, duration).then(() => {
+      dispatch(removeMessage(key));
+      if (onClose) {
+        onClose();
+      }
+    });
+  };
+}
+
+export function removeMessage(key) {
+  return {
+    type: REMOVE_MESSAGE,
+    key
+  };
 }
 
 export function initState() {
   return dispatch => {
-    if (Cookies.get('token')) {
+    if (UsersService.currentUserToken()) {
       return dispatch(checkAuth()).then(res => {
         if (res.status === 200) {
           dispatch(getCurrentUser());
@@ -64,11 +64,12 @@ export function initState() {
 
 export function getCurrentUser() {
   return dispatch => {
-    return callCurrentUserApi()
+    return UsersService.getCurrentUser()
       .then(res => {
         if (res.status === 200) {
           const currentUser = res.data;
           dispatch(setCurrentUser(currentUser));
+          if (currentUser.isVerified) dispatch(setVerifyStatus(true));
           return currentUser;
         } else {
           clearToken();
@@ -83,20 +84,21 @@ export function getCurrentUser() {
 
 export function checkAuth() {
   return dispatch => {
-    return callCheckAuthApi()
+    return UsersService.checkAuth()
       .then(res => {
         if (res.status === 200) {
-          dispatch(setAuthStatus(true));
+          dispatch(setIsAuthenticated(true));
           return res;
         } else {
           clearToken();
-          dispatch(setAuthStatus(false));
+          dispatch(setIsAuthenticated(false));
           return res;
         }
       })
       .catch(error => {
         clearToken();
-        dispatch(setAuthStatus(false));
+        dispatch(handleError(error));
+        dispatch(setIsAuthenticated(false));
       });
   };
 }
@@ -104,22 +106,21 @@ export function checkAuth() {
 export function logout(email, password) {
   return dispatch => {
     dispatch(setLogoutPending(true));
-    dispatch(setAuthError(null));
 
-    return callLogoutApi()
+    return UsersService.logout()
       .then(res => {
+        const { error } = res.data;
         if (res.status === 200) {
+          dispatch(sendMessage({ content: "Logged out" }));
           dispatch(setCurrentUser({}));
-          dispatch(setAuthStatus(false));
+          dispatch(setIsAuthenticated(false));
           clearToken();
         } else {
-          const error = new Error(res.error);
-          throw error;
+          dispatch(handleError(error));
         }
       })
       .catch(error => {
-        dispatch(setAuthError(error));
-        alert('Error logging out. Please try again');
+        dispatch(handleError(error));
       })
       .finally(function() {
         dispatch(setLogoutPending(false));
@@ -130,24 +131,22 @@ export function logout(email, password) {
 export function login(email, password) {
   return dispatch => {
     dispatch(setLoginPending(true));
-    dispatch(setAuthStatus(false));
-    dispatch(setAuthError(null));
+    dispatch(setIsAuthenticated(false));
 
-    return callLoginApi(email, password)
+    return UsersService.login(email, password)
       .then(res => {
         const { user, token, error } = res.data;
         if (res.status === 200) {
-          dispatch(setAuthStatus(true));
+          dispatch(sendMessage({ content: "Logged in", type: "success" }));
+          dispatch(setIsAuthenticated(true));
           dispatch(setCurrentUser(user));
-          Cookies.set('token', token);
+          Cookies.set("token", token);
         } else {
-          const err = new Error(error);
-          throw err;
+          dispatch(handleError(error));
         }
       })
       .catch(error => {
-        dispatch(setAuthError(error));
-        alert('Error logging in. Please try again');
+        dispatch(handleError(error));
       })
       .finally(function() {
         dispatch(setLoginPending(false));
@@ -155,6 +154,72 @@ export function login(email, password) {
   };
 }
 
+export function register(user) {
+  return dispatch => {
+    dispatch(setRegisterPending(true));
+    dispatch(setRegisterStatus(false));
+
+    return UsersService.register(user)
+      .then(res => {
+        const { user, error } = res.data;
+        if (res.status === 200) {
+          dispatch(setRegisterStatus(true));
+          dispatch(setCurrentUser(user));
+        } else {
+          dispatch(handleError(error));
+        }
+      })
+      .catch(error => {
+        dispatch(handleError(error));
+      })
+      .finally(function() {
+        dispatch(setRegisterPending(false));
+      });
+  };
+}
+
+export function verify(url) {
+  return dispatch => {
+    dispatch(setVerifyPending(true));
+    dispatch(setVerifyStatus(false));
+
+    return UsersService.verify(url)
+      .then(res => {
+        const { user, error } = res.data;
+        if (res.status === 200) {
+          dispatch(setVerifyStatus(true));
+          dispatch(setCurrentUser(user));
+        } else {
+          dispatch(handleError(error));
+        }
+      })
+      .catch(error => {
+        dispatch(handleError(error));
+      })
+      .finally(function() {
+        dispatch(setVerifyPending(false));
+      });
+  };
+}
+
+function handleError(error) {
+  return dispatch => {
+    const message = error.response.data.error;
+    const status = error.response.status;
+    const content = status + ": " + message;
+    dispatch(sendMessage({ content, type: "error" }));
+  };
+}
+
+//USER
+function setCurrentUser(currentUser) {
+  return {
+    type: SET_CURRENT_USER,
+    currentUser
+  };
+}
+
+//AUTH
 function setLogoutPending(logoutPending) {
   return {
     type: SET_LOGOUT_PENDING,
@@ -169,23 +234,39 @@ function setLoginPending(logoutPending) {
   };
 }
 
-function setAuthStatus(isAuthenticated) {
+function setIsAuthenticated(isAuthenticated) {
   return {
-    type: SET_AUTH_STATUS,
+    type: SET_AUTHENTICATED,
     isAuthenticated
   };
 }
 
-function setAuthError(error) {
+//REGISTER
+function setRegisterPending(registerPending) {
   return {
-    type: SET_AUTH_ERROR,
-    error
+    type: SET_REGISTER_PENDING,
+    registerPending
   };
 }
 
-function setCurrentUser(currentUser) {
+function setRegisterStatus(isRegistered) {
   return {
-    type: SET_CURRENT_USER,
-    currentUser
+    type: SET_REGISTER_STATUS,
+    isRegistered
+  };
+}
+
+//VERIFY
+function setVerifyPending(verifyPending) {
+  return {
+    type: SET_VERIFY_PENDING,
+    verifyPending
+  };
+}
+
+function setVerifyStatus(isVerified) {
+  return {
+    type: SET_VERIFY_STATUS,
+    isVerified
   };
 }

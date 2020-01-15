@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^3.26.6",
     "axios": "^0.19.0",
-    "express": "^4.17.1",
     "formik": "^1.5.8",
     "history": "^4.9.0",
     "js-cookie": "^2.2.1",
+    "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
@@ -16,6 +17,7 @@
     "react-scripts": "^3.3.0",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
+    "redux-form": "^8.2.6",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "underscore": "^1.9.1",
@@ -25,11 +27,17 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "env": {
+      "browser": true
+    },
+    "rules": {
+      "jsx-a11y/anchor-is-valid": "off"
+    }
   },
   "browserslist": {
     "production": [

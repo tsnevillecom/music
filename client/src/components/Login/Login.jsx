@@ -1,29 +1,26 @@
-import React from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { connect } from 'react-redux';
-import { login } from '../../redux/actions';
-import { Redirect } from 'react-router-dom';
+import * as Yup from "yup";
+
+import { ErrorMessage, Field, Form, Formik } from "formik";
+
+import React from "react";
+import { connect } from "react-redux";
+import { login } from "../../redux/actions";
 
 class Login extends React.Component {
   render() {
-    const { isAuthenticated, login } = this.props;
-
-    if (isAuthenticated) {
-      return <Redirect to="/" />;
-    }
+    const { login } = this.props;
 
     return (
       <div>
         <h2>Login</h2>
         <Formik
           initialValues={{
-            userName: '',
-            password: ''
+            userName: "",
+            password: ""
           }}
           validationSchema={Yup.object().shape({
-            userName: Yup.string().required('Username is required'),
-            password: Yup.string().required('Password is required')
+            userName: Yup.string().required("Username is required"),
+            password: Yup.string().required("Password is required")
           })}
           onSubmit={({ userName, password }, { setStatus, setSubmitting }) => {
             setStatus();
@@ -37,8 +34,8 @@ class Login extends React.Component {
                   name="userName"
                   type="text"
                   className={
-                    'form-control' +
-                    (errors.userName && touched.userName ? ' is-invalid' : '')
+                    "form-control" +
+                    (errors.userName && touched.userName ? " is-invalid" : "")
                   }
                 />
                 <ErrorMessage
@@ -53,8 +50,8 @@ class Login extends React.Component {
                   name="password"
                   type="password"
                   className={
-                    'form-control' +
-                    (errors.password && touched.password ? ' is-invalid' : '')
+                    "form-control" +
+                    (errors.password && touched.password ? " is-invalid" : "")
                   }
                 />
                 <ErrorMessage
@@ -78,7 +75,7 @@ class Login extends React.Component {
                   />
                 )}
               </div>
-              {status && <div className={'alert alert-danger'}>{status}</div>}
+              {status && <div className={"alert alert-danger"}>{status}</div>}
             </Form>
           )}
         />
@@ -88,11 +85,10 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const { loginPending, isAuthenticated, loginError } = state.auth;
+  const { loginPending, isAuthenticated } = state.auth;
   return {
     loginPending,
-    isAuthenticated,
-    loginError
+    isAuthenticated
   };
 };
 
@@ -102,4 +98,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

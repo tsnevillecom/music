@@ -1,21 +1,47 @@
-import React, { Component } from 'react';
-import './Users.scss';
+import "./Users.scss";
+
+import React, { Component } from "react";
+
+import { Link } from "react-router-dom";
+import { UsersService } from "../../services/users.service";
+import { map } from "underscore";
+import moment from "moment";
 
 class Users extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      users: []
+    };
+  }
+
+  componentDidMount() {
+    UsersService.getUsers().then(res => {
+      if (res.status === 200) {
+        this.setState({ users: res.data });
+      }
+    });
   }
 
   renderUsers() {
-    const { users } = this.props;
-    return users.map((user, index) => {
-      <div key={index}>
-        <p>{user.firstName}</p>
-        <p>{user.lastName}</p>
-        <p>{user.userName}</p>
-        <p>{user.email}</p>
-      </div>;
+    const { users } = this.state;
+    return map(users, user => {
+      return (
+        <div key={user._id}>
+          <div>
+            <Link to={{ pathname: `/users/${user.userName}`, state: { user } }}>
+              Profile
+            </Link>
+          </div>
+          <div>{user.firstName}</div>
+          <div>{user.lastName}</div>
+          <div>{user.userName}</div>
+          <div>{user.isVerified}</div>
+          <div>{user.email}</div>
+          <div>{moment(user.createdAt).fromNow()}</div>
+          <hr />
+        </div>
+      );
     });
   }
 

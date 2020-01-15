@@ -1,12 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Home extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
-  componentDidMount() {}
-
   render() {
     return (
       <React.Fragment>
@@ -20,7 +14,7 @@ class Home extends Component {
               something more unique.
             </p>
             <p>
-              <a className="btn btn-primary btn-lg" href="#" role="button">
+              <a className="btn btn-primary btn-lg" href="/#" role="button">
                 Learn more &raquo;
               </a>
             </p>
@@ -35,10 +29,10 @@ class Home extends Component {
                 Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
                 tellus ac cursus commodo, tortor mauris condimentum nibh, ut
                 fermentum massa justo sit amet risus. Etiam porta sem malesuada
-                magna mollis euismod. Donec sed odio dui.{' '}
+                magna mollis euismod. Donec sed odio dui.{" "}
               </p>
               <p>
-                <a className="btn btn-secondary" href="#" role="button">
+                <a className="btn btn-secondary" href="/#" role="button">
                   View details &raquo;
                 </a>
               </p>
@@ -49,10 +43,10 @@ class Home extends Component {
                 Donec id elit non mi porta gravida at eget metus. Fusce dapibus,
                 tellus ac cursus commodo, tortor mauris condimentum nibh, ut
                 fermentum massa justo sit amet risus. Etiam porta sem malesuada
-                magna mollis euismod. Donec sed odio dui.{' '}
+                magna mollis euismod. Donec sed odio dui.{" "}
               </p>
               <p>
-                <a className="btn btn-secondary" href="#" role="button">
+                <a className="btn btn-secondary" href="/#" role="button">
                   View details &raquo;
                 </a>
               </p>
@@ -66,7 +60,7 @@ class Home extends Component {
                 condimentum nibh, ut fermentum massa justo sit amet risus.
               </p>
               <p>
-                <a className="btn btn-secondary" href="#" role="button">
+                <a className="btn btn-secondary" href="/#" role="button">
                   View details &raquo;
                 </a>
               </p>

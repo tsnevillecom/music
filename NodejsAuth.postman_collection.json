@@ -75,7 +75,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{nodeurl}}/users/me",
+					"raw": "{{nodeurl}}/me",
 					"host": [
 						"{{nodeurl}}"
 					],
@@ -217,7 +217,7 @@
 					"raw": "{\n  \"name\": \"dummy12\",\n  \"password\":\"1234567890\"\n\t\n}"
 				},
 				"url": {
-					"raw": "{{nodeurl}}/users/me",
+					"raw": "{{nodeurl}}/me",
 					"host": [
 						"{{nodeurl}}"
 					],
@@ -271,7 +271,7 @@
 					"raw": "{\n  \"description\":\"goto  sleep\",\n  \"completed\":false\n}"
 				},
 				"url": {
-					"raw": "{{nodeurl}}/users/me",
+					"raw": "{{nodeurl}}/me",
 					"host": [
 						"{{nodeurl}}"
 					],
@@ -342,7 +342,7 @@
 					"raw": "{\n \"email\":\"dummy1222@gmail.com\",\n \"password\":\"12345678\"\n}"
 				},
 				"url": {
-					"raw": "{{nodeurl}}/users/login",
+					"raw": "{{nodeurl}}/login",
 					"host": [
 						"{{nodeurl}}"
 					],
@@ -369,7 +369,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{nodeurl}}/users/logout",
+					"raw": "{{nodeurl}}/logout",
 					"host": [
 						"{{nodeurl}}"
 					],
@@ -396,7 +396,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "{{nodeurl}}/users/logout",
+					"raw": "{{nodeurl}}/logout",
 					"host": [
 						"{{nodeurl}}"
 					],

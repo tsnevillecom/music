@@ -1,8 +1,9 @@
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { Redirect, Route } from "react-router-dom";
 
-class PrivateRoute extends React.Component {
+import React from "react";
+import { connect } from "react-redux";
+
+class AuthenticatedRoute extends React.Component {
   render() {
     const { isAuthenticated, component: Component, ...rest } = this.props;
 
@@ -23,4 +24,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(PrivateRoute);
+export default connect(mapStateToProps)(AuthenticatedRoute);

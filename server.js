@@ -1,9 +1,9 @@
-import express from 'express';
-require('./db/mongoose');
-import bodyParser from 'body-parser';
-import path from 'path';
 import { HTTP_PORT } from './config';
-const authenticate  = require('./middleware/auth');
+import bodyParser from 'body-parser';
+import express from 'express';
+import path from 'path';
+require('./db/mongoose');
+const authenticate = require('./middleware/auth');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -12,14 +12,9 @@ app.use(express.json());
 
 //Routes
 const userRoutes = require('./router/user');
-const apiRoutes = require('./router/api');
+const authRoutes = require('./router/auth');
 app.use(userRoutes);
-app.use(apiRoutes);
-
-app.get('/checkToken', authenticate, async (req,res)=> {
-  console.log(res);
-  res.sendStatus(200);
-})
+app.use(authRoutes);
 
 app.listen(HTTP_PORT, () => {
   console.log(`Server listening at port ${HTTP_PORT}.`);

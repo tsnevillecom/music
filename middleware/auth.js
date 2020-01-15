@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
-import User from '../models/user';
 import { SECRET } from '../config';
+import User from '../models/user';
+import jwt from 'jsonwebtoken';
 
 const auth = async (req, res, next) => {
   try {
@@ -22,8 +22,7 @@ const auth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    console.log(error);
-    res.status(401).send({ error: 'Please authenticate!' });
+    res.status(401).send('Unauthorized: No token provided');
   }
 };
 

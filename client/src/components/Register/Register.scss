@@ -1,0 +1,15 @@
+.register {
+  margin: 0 auto;
+  max-width: 420px;
+  padding: 15px;
+  width: 100%;
+
+  .register-actions {
+    display: flex;
+
+    .register-submit {
+      flex: 1;
+      margin-right: 10px;
+    }
+  }
+}
