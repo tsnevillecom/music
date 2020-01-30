@@ -1,27 +1,45 @@
 import "./App.scss";
 
-import { Dropdown, Icon, Layout, Menu } from "antd";
+import {
+  Alignment,
+  Button,
+  Classes,
+  H5,
+  Navbar,
+  NavbarDivider,
+  NavbarGroup,
+  NavbarHeading,
+  Popover,
+  Position
+} from "@blueprintjs/core";
 import { NavLink, Route, Router, Switch } from "react-router-dom";
 import React, { Component } from "react";
 import { initState, logout } from "../../redux/actions";
 
 import AuthenticatedRoute from "../shared/AuthenticatedRoute";
+import Footer from "../Footer/Footer";
+import Header from "../Header/Header";
 import Loading from "../Loading/Loading";
+import MediaPlayer from "../MediaPlayer/MediaPlayer";
 import NonAuthenticatedRoute from "../shared/NonAuthenticatedRoute";
 import PageLoader from "../PageLoader/PageLoader";
 import Pricing from "../Pricing/Pricing";
 import PropTypes from "prop-types";
+import ScrollToTop from "../shared/ScrollToTop";
 import { connect } from "react-redux";
 import { history } from "../../helpers";
+import loadable from "@loadable/component";
 
-const Home = React.lazy(() => import("../Home/Home"));
-const About = React.lazy(() => import("../About/About"));
-const Login = React.lazy(() => import("../Login/Login"));
-const Profile = React.lazy(() => import("../Profile/Profile"));
-const Users = React.lazy(() => import("../Users/Users"));
-const Register = React.lazy(() => import("../Register/Register"));
-const VerifyEmail = React.lazy(() => import("../VerifyEmail/VerifyEmail"));
-const PageNotFound = React.lazy(() => import("../PageNotFound/PageNotFound"));
+const Home = loadable(() => import("../Home/Home"));
+const About = loadable(() => import("../About/About"));
+const Login = loadable(() => import("../Login/Login"));
+const Profile = loadable(() => import("../Profile/Profile"));
+const Users = loadable(() => import("../Users/Users"));
+const Bands = loadable(() => import("../Bands/Bands"));
+const Register = loadable(() => import("../Register/Register"));
+const VerifyEmail = loadable(() => import("../VerifyEmail/VerifyEmail"));
+const PageNotFound = loadable(() => import("../PageNotFound/PageNotFound"));
+const BandProfile = loadable(() => import("../BandProfile/BandProfile"));
 
 class App extends Component {
   constructor(props) {
@@ -47,127 +65,78 @@ class App extends Component {
     logout().then(() => history.push("/login"));
   }
 
+  renderProfileMenu() {
+    return (
+      <ul className="bp3-menu bp3-elevation-1">
+        <li className="bp3-menu-header">
+          <h6 className="bp3-heading">User menu</h6>
+        </li>
+        <li>
+          <NavLink to="/profile" className="bp3-menu-item">
+            Profile
+          </NavLink>
+        </li>
+        <li>
+          <a
+            onClick={this.logout}
+            className="bp3-menu-item bp3-popover-dismiss"
+          >
+            Logout
+          </a>
+        </li>
+      </ul>
+    );
+  }
+
   render() {
-    const { Header, Content } = Layout;
-    const { isAuthenticated, userName } = this.props;
+    const { isAuthenticated, firstName, lastName } = this.props;
     const { init } = this.state;
 
     if (init) {
       return <PageLoader />;
     }
 
+    const clientId = "853fdb79a14a9ed748ec9fe482e859dd";
+    const trackId = "120912535";
+
     return (
       <Router history={history}>
-        <Layout>
-          <Header
-            id="header"
-            style={{ position: "fixed", zIndex: 1, width: "100%" }}
-          >
-            <nav className="top-nav">
-              <div className="top-nav-left">
-                <NavLink exact to="/" className="nav-item nav-link">
-                  Home
-                </NavLink>
-                <NavLink to="/about" className="nav-item nav-link">
-                  About
-                </NavLink>
-                <NavLink to="/pricing" className="nav-item nav-link">
-                  Pricing
-                </NavLink>
-                {isAuthenticated && (
-                  <NavLink to="/users" className="nav-item nav-link">
-                    Users
-                  </NavLink>
-                )}
-              </div>
-              <div className="top-nav-right">
-                {!isAuthenticated && (
-                  <React.Fragment>
-                    <NavLink to="/login" className="nav-item nav-link">
-                      Login
-                    </NavLink>
-                    <NavLink to="/register" className="nav-item nav-link">
-                      Register
-                    </NavLink>
-                  </React.Fragment>
-                )}
-                {isAuthenticated && (
-                  <Dropdown
-                    placement="bottomRight"
-                    overlay={
-                      <Menu>
-                        <Menu.Item key="0">
-                          <NavLink to="/profile" className="nav-item nav-link">
-                            Profile
-                          </NavLink>
-                        </Menu.Item>
-                        <Menu.Divider />
-
-                        {isAuthenticated && (
-                          <Menu.Item key="3">
-                            <a
-                              href="/#"
-                              className="nav-item nav-link"
-                              onClick={this.logout}
-                            >
-                              Logout
-                            </a>
-                          </Menu.Item>
-                        )}
-                      </Menu>
-                    }
-                    trigger={["click"]}
-                  >
-                    <a className="ant-dropdown-link" href="#">
-                      {userName} <Icon type="down" />
-                    </a>
-                  </Dropdown>
-                )}
-              </div>
-            </nav>
-          </Header>
-          <Layout>
-            <Content>
-              <main role="main">
-                <div className="container">
-                  <div className="row">
-                    <Switch>
-                      <React.Suspense fallback={<Loading />}>
-                        <Route exact path="/" component={Home} />
-                        <Route path="/about" component={About} />
-                        <Route path="/pricing" component={Pricing} />
-                        <Route path="/verify/:token" component={VerifyEmail} />
-                        <AuthenticatedRoute
-                          path="/profile"
-                          exact
-                          component={Profile}
-                        />
-                        <AuthenticatedRoute
-                          path="/users/:userName"
-                          component={Profile}
-                        />
-                        <AuthenticatedRoute
-                          path="/users"
-                          exact
-                          component={Users}
-                        />
-                        <NonAuthenticatedRoute
-                          path="/login"
-                          component={Login}
-                        />
-                        <NonAuthenticatedRoute
-                          path="/register"
-                          component={Register}
-                        />
-                        <Route component={PageNotFound} />
-                      </React.Suspense>
-                    </Switch>
-                  </div>
-                </div>
-              </main>
-            </Content>
-          </Layout>
-        </Layout>
+        <ScrollToTop />
+        <Header />
+        <main role="main">
+          <div className="container">
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/about" component={About} />
+              <Route exact path="/pricing" component={Pricing} />
+              <Route exact path="/bands" component={Bands} />
+              <Route exact path="/bands/:slug" component={BandProfile} />
+              <Route exact path="/verify/:token" component={VerifyEmail} />
+              <AuthenticatedRoute
+                exact
+                key="profile"
+                path="/profile"
+                component={Profile}
+              />
+              <AuthenticatedRoute
+                exact
+                key="userProfile"
+                path="/users/:userName"
+                component={Profile}
+              />
+              <AuthenticatedRoute exact path="/users" component={Users} />
+              <NonAuthenticatedRoute exact path="/login" component={Login} />
+              <NonAuthenticatedRoute
+                exact
+                path="/register"
+                component={Register}
+              />
+              <Route component={PageNotFound} />
+            </Switch>
+          </div>
+          <Footer />
+          <MediaPlayer clientId={clientId} trackId={trackId} />
+        </main>
       </Router>
     );
   }
@@ -180,11 +149,12 @@ App.propTypes = {
 
 const mapStateToProps = state => {
   const { isAuthenticated, authError } = state.auth;
-  const { userName } = state.user;
+  const { firstName, lastName } = state.user;
   return {
     isAuthenticated,
     authError,
-    userName
+    firstName,
+    lastName
   };
 };
 

@@ -12,12 +12,10 @@ export default function register(
       return Object.assign({}, state, {
         registerPending: action.registerPending
       });
-
     case SET_REGISTER_STATUS:
       return Object.assign({}, state, {
         isRegistered: action.isRegistered
       });
-
     default:
       return state;
   }

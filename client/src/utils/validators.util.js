@@ -4,6 +4,7 @@ export const maxLength = max => value =>
 export const minLength = min => value =>
   value && value.length < min ? `Must be ${min} characters or more` : undefined;
 export const minLength4 = minLength(4);
+export const minLength8 = minLength(8);
 export const number = value =>
   value && isNaN(Number(value)) ? "Must be a number" : undefined;
 export const minValue = min => value =>
@@ -11,6 +12,10 @@ export const minValue = min => value =>
 export const email = value =>
   value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
     ? "Invalid email address"
+    : undefined;
+export const specialChars = value =>
+  value && !/^[a-zA-Z0-9]{4,10}$/i.test(value)
+    ? "No spaces or special characters allowed"
     : undefined;
 export const passwordsMustMatch = (value, allValues) => {
   return allValues.password !== allValues.passwordConfirmation

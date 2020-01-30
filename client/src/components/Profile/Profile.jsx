@@ -1,7 +1,15 @@
+import "./Profile.scss";
+
 import React, { Component } from "react";
 
+import ImageLoader from "../shared/ImageLoader";
+import { Link } from "react-router-dom";
 import { UsersService } from "../../services/users.service";
 import { connect } from "react-redux";
+import { getProfile } from "../../redux/actions";
+import moment from "moment";
+
+const ProfileNotFound = () => <div>Profile not found</div>;
 
 class Profile extends Component {
   constructor(props) {
@@ -14,38 +22,71 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    const { user: currentUser } = this.props;
+    const { user, getProfile } = this.props;
     const { params, url } = this.props.match;
 
-    // if (!params || !params.userName)
+    let userName;
 
-    if (params.userName) {
-      UsersService.getUserByUserName(params.userName).then(res => {
-        if (res.status === 200) {
-          this.setState({ userName: params.userName, user: res.data });
-        }
-      });
+    if (url === "/profile") {
+      userName = user.userName;
+    } else if (params.userName) {
+      userName = params.userName;
+    }
+
+    if (userName) {
+      getProfile(userName);
     } else {
       //TODO: could not load user
     }
   }
 
   render() {
-    const { user } = this.state;
+    const { profile, getProfilePending } = this.props.profile;
+    if (getProfilePending) return null;
+    if (!profile) return <ProfileNotFound />;
 
     return (
-      <div>
-        <h2>Profile</h2>
-        {user && (
-          <React.Fragment>
-            <div>{user._id}</div>
-            <div>{user.firstName}</div>
-            <div>{user.lastName}</div>
-            <div>{user.userName}</div>
-            <div>{user.isVerified}</div>
-            <div>{user.email}</div>
-            <div>{user.createdAt}</div>
-          </React.Fragment>
+      <div id="profile">
+        <h2>
+          {profile.firstName} {profile.lastName}
+        </h2>
+        {profile && (
+          <div className="grid">
+            <div className="col col-4">
+              <div className="avatar">
+                <ImageLoader src={profile.avatar} />
+              </div>
+            </div>
+
+            <div className="col col-8 profile">
+              <div>{profile.email}</div>
+
+              {profile.bands && (
+                <React.Fragment>
+                  <h5>Bands</h5>
+                  <div className="band-members">
+                    {profile.bands.map((band, index) => {
+                      return (
+                        <Link
+                          key={index}
+                          to={{ pathname: `/bands/${band.slug}` }}
+                          role="button"
+                          tabIndex={0}
+                        >
+                          <ImageLoader src={band.avatar} />
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </React.Fragment>
+              )}
+              <div>{profile.userName}</div>
+              <div>Joined {moment(profile.createdAt).fromNow()}</div>
+              <div className="bp3-tag bp3-minimal">
+                ID #{profile._id.toUpperCase()}
+              </div>
+            </div>
+          </div>
         )}
       </div>
     );
@@ -53,8 +94,17 @@ class Profile extends Component {
 }
 
 const mapStateToProps = state => {
-  const { user } = state;
-  return { user };
+  const { user, profile } = state;
+  return { user, profile };
 };
 
-export default connect(mapStateToProps)(Profile);
+const mapDispatchToProps = dispatch => {
+  return {
+    getProfile: userName => dispatch(getProfile(userName))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Profile);

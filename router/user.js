@@ -6,10 +6,41 @@ const authenticate = require("../middleware/auth");
 const validator = require("validator");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const faker = require("faker");
+const Utilities = require("../utils/");
 
 import { SENDGRID_PASSWORD, SENDGRID_USERNAME } from "../config";
 
 const EmailToken = require("../models/emailToken");
+
+router.get("/users/seed", async (req, res) => {
+  let users = [];
+  for (var i = 0; i < 50; i++) {
+    const userName = faker.random.words(2);
+    const slug = Utilities.stringToSlug(userName);
+
+    let user = {
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
+      userName: slug,
+      password: "12345678",
+      email: faker.internet.exampleEmail(),
+      avatar: "https://picsum.photos/400/400?random=" + i,
+      isVerified: true
+    };
+
+    const u = new User(user);
+    users.push(u);
+  }
+
+  User.insertMany(users)
+    .then(users => {
+      res.status(200).send(users);
+    })
+    .catch(err => {
+      res.status(400);
+    });
+});
 
 router.get("/verify/:token", async (req, res) => {
   const token = req.params.token;
@@ -23,8 +54,6 @@ router.get("/verify/:token", async (req, res) => {
 
     //If token found, find a matching user
     User.findOne({ _id: token._userId }, (err, user) => {
-      console.log(user);
-
       if (!user)
         return res.status(400).send({
           error: "We were unable to find a user for this token."
@@ -52,7 +81,7 @@ router.get("/verify/:token", async (req, res) => {
 });
 
 router.get("/users", authenticate, async (req, res) => {
-  User.find({}, (error, users) => {
+  User.find({ isVerified: true }, (error, users) => {
     if (error) return done(error);
 
     if (users) {
@@ -133,17 +162,46 @@ router.post("/register", async (req, res) => {
 router.get("/users/:userName", authenticate, async (req, res) => {
   const userName = req.params.userName;
 
-  if (userName === "me") {
-    return res.send(req.user);
-  }
+  // if (userName === "me") {
+  //   return res.send({ profile: req.user });
+  // }
 
-  User.findOne({ userName: userName }, (err, user) => {
-    if (err) return res.status(400).send("User not found.");
+  // User.findOne({ userName: userName }, (error, user) => {
+  //   if (error || !user)
+  //     return res.status(400).send({
+  //       error: "We were unable to find this user."
+  //     });
+  //
+  //   if (user) {
+  //     res.status(200).send({
+  //       profile: user
+  //     });
+  //   }
+  // });
 
-    if (user) {
-      res.status(200).send(user);
+  User.aggregate(
+    [
+      { $match: { userName } },
+      {
+        $lookup: {
+          from: "bands",
+          localField: "_id",
+          foreignField: "members",
+          as: "bands"
+        }
+      }
+    ],
+    (error, user) => {
+      if (error || !user.length)
+        return res.status(400).send({
+          error: "We were unable to find this band."
+        });
+
+      if (!!user.length) {
+        res.status(200).send({ user: user[0] });
+      }
     }
-  });
+  );
 });
 
 router.get("/me", authenticate, async (req, res) => {

@@ -1,18 +1,9 @@
-#root {
-  height: 100%;
-  position: relative;
-  width: 100%;
+@import "~normalize.css";
+@import "~@blueprintjs/core/src/blueprint.scss";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 
-  > .ant-layout {
-    min-height: 100%;
-  }
-}
-
-a {
-  cursor: pointer;
-}
-
-@import "~antd/dist/antd.css";
 @import "/styles/_variables";
+@import "/styles/_grid";
 @import "/styles/_mixins";
 @import "/styles/_overrides";
+@import "/styles/_theme";

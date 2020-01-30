@@ -27,6 +27,7 @@ class Register extends React.Component {
       handleSubmit,
       pristine,
       reset,
+      touch,
       submitting,
       registerPending
     } = this.props;
@@ -42,12 +43,22 @@ class Register extends React.Component {
             component={RenderField}
             type="text"
             label="Username"
-            validate={[Validators.required, Validators.minLength4]}
+            maxLength="256"
+            onChange={() => touch("userName")}
+            showResult={true}
+            resultText="http://www.thissite.com/"
+            hint="At least 4 characters, no spaces or special characters"
+            validate={[
+              Validators.required,
+              Validators.minLength4,
+              Validators.specialChars
+            ]}
           />
 
           <Field
             name="firstName"
             component={RenderField}
+            maxLength="32"
             type="text"
             label="First Name"
             validate={[Validators.required]}
@@ -56,6 +67,7 @@ class Register extends React.Component {
           <Field
             name="lastName"
             component={RenderField}
+            maxLength="32"
             type="text"
             label="Last Name"
             validate={[Validators.required]}
@@ -73,33 +85,43 @@ class Register extends React.Component {
           <Field
             name="password"
             component={RenderField}
+            maxLength="128"
             type="password"
             label="Password"
-            validate={[Validators.required, Validators.passwordsMustMatch]}
+            validate={[
+              Validators.required,
+              Validators.minLength8,
+              Validators.passwordsMustMatch
+            ]}
           />
 
           <Field
             name="passwordConfirmation"
             component={RenderField}
+            maxLength="128"
             type="password"
             label="Confirm Password"
-            validate={[Validators.required, Validators.passwordsMustMatch]}
+            validate={[
+              Validators.required,
+              Validators.minLength8,
+              Validators.passwordsMustMatch
+            ]}
           />
 
           <div className="register-actions">
             <button
-              className="btn btn-primary register-submit"
               type="submit"
+              className="bp3-button bp3-fill bp3-intent-primary"
               disabled={pristine || submitting}
             >
               Submit
             </button>
-
             <button
-              className="btn btn-light"
+              style={{ marginLeft: "10px" }}
               type="button"
-              disabled={pristine || submitting}
               onClick={reset}
+              className="bp3-button bp3-fill bp3-minimal bp3-icon-remove"
+              disabled={pristine || submitting}
             >
               Clear
             </button>
@@ -130,5 +152,6 @@ Register = connect(
 )(Register);
 
 export default reduxForm({
-  form: "register"
+  form: "register",
+  touchOnBlur: false
 })(Register);

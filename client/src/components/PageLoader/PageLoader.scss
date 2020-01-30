@@ -1,3 +1,5 @@
+@import "../../styles/_variables.scss";
+
 #pageLoader {
   align-items: center;
   display: flex;
@@ -7,7 +9,7 @@
   width: 100%;
 
   .loading {
-    color: #555;
+    color: $color-white;
     font-size: 12px;
     margin: 5px 0 0 0;
     text-align: center;
@@ -20,7 +22,7 @@
     width: 40px;
 
     .bar {
-      background: #666;
+      background: $color-white;
       bottom: 1px;
       height: 3px;
       position: absolute;

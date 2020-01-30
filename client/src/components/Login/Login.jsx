@@ -1,84 +1,68 @@
-import * as Yup from "yup";
+import "./Login.scss";
 
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Validators from "../../utils/validators.util.js";
+
+import { Field, reduxForm } from "redux-form";
 
 import React from "react";
+import RenderField from "../shared/RenderField";
 import { connect } from "react-redux";
 import { login } from "../../redux/actions";
 
 class Login extends React.Component {
-  render() {
+  constructor() {
+    super();
+    this.submit = this.submit.bind(this);
+  }
+
+  submit(values) {
     const { login } = this.props;
+    login({ ...values });
+  }
+
+  render() {
+    const {
+      handleSubmit,
+      pristine,
+      reset,
+      touch,
+      submitting,
+      loginPending
+    } = this.props;
 
     return (
-      <div>
+      <div className="login">
         <h2>Login</h2>
-        <Formik
-          initialValues={{
-            userName: "",
-            password: ""
-          }}
-          validationSchema={Yup.object().shape({
-            userName: Yup.string().required("Username is required"),
-            password: Yup.string().required("Password is required")
-          })}
-          onSubmit={({ userName, password }, { setStatus, setSubmitting }) => {
-            setStatus();
-            login(userName, password);
-          }}
-          render={({ errors, status, touched, isSubmitting }) => (
-            <Form>
-              <div className="form-group">
-                <label htmlFor="userName">Username</label>
-                <Field
-                  name="userName"
-                  type="text"
-                  className={
-                    "form-control" +
-                    (errors.userName && touched.userName ? " is-invalid" : "")
-                  }
-                />
-                <ErrorMessage
-                  name="userName"
-                  component="div"
-                  className="invalid-feedback"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <Field
-                  name="password"
-                  type="password"
-                  className={
-                    "form-control" +
-                    (errors.password && touched.password ? " is-invalid" : "")
-                  }
-                />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="invalid-feedback"
-                />
-              </div>
-              <div className="form-group">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={isSubmitting}
-                >
-                  Login
-                </button>
-                {isSubmitting && (
-                  <img
-                    alt="loading"
-                    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
-                  />
-                )}
-              </div>
-              {status && <div className={"alert alert-danger"}>{status}</div>}
-            </Form>
-          )}
-        />
+        {loginPending && <p className="text-primary">Registering</p>}
+        <form onSubmit={handleSubmit(this.submit)} noValidate>
+          <Field
+            autoFocus
+            name="userName"
+            component={RenderField}
+            type="text"
+            label="Username"
+            validate={[Validators.required]}
+          />
+
+          <Field
+            name="password"
+            component={RenderField}
+            maxLength="128"
+            type="password"
+            label="Password"
+            validate={[Validators.required]}
+          />
+
+          <div className="login-actions">
+            <button
+              type="submit"
+              className="bp3-button bp3-fill bp3-intent-primary"
+              disabled={pristine || submitting}
+            >
+              Login
+            </button>
+          </div>
+        </form>
       </div>
     );
   }
@@ -98,7 +82,12 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
+Login = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Login);
+
+export default reduxForm({
+  form: "login",
+  touchOnBlur: false
+})(Login);

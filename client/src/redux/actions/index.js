@@ -1,20 +1,26 @@
 import {
+  GET_BAND_PENDING,
+  GET_PROFILE_PENDING,
   REMOVE_MESSAGE,
+  SAVE_BAND_PENDING,
+  SAVE_PROFILE_PENDING,
   SEND_MESSAGE,
   SET_AUTHENTICATED,
+  SET_BAND,
   SET_CURRENT_USER,
   SET_LOGIN_PENDING,
   SET_LOGOUT_PENDING,
+  SET_PROFILE,
   SET_REGISTER_PENDING,
   SET_REGISTER_STATUS,
   SET_VERIFY_PENDING,
   SET_VERIFY_STATUS
 } from "../constants";
 
+import { BandsService } from "../../services/bands.service";
 import Cookies from "js-cookie";
 import { UsersService } from "../../services/users.service";
 import createMessage from "../factories/createMessage";
-import { message } from "antd";
 
 function clearToken() {
   Cookies.remove("token");
@@ -28,14 +34,14 @@ export function sendMessage(options) {
       message: messageConfig
     });
 
-    const { content, duration, key, onClose, type } = messageConfig;
+    // const { content, duration, key, onClose, type } = messageConfig;
 
-    message[type](content, duration).then(() => {
-      dispatch(removeMessage(key));
-      if (onClose) {
-        onClose();
-      }
-    });
+    // message[type](content, duration).then(() => {
+    //   dispatch(removeMessage(key));
+    //   if (onClose) {
+    //     onClose();
+    //   }
+    // });
   };
 }
 
@@ -103,7 +109,7 @@ export function checkAuth() {
   };
 }
 
-export function logout(email, password) {
+export function logout() {
   return dispatch => {
     dispatch(setLogoutPending(true));
 
@@ -128,12 +134,12 @@ export function logout(email, password) {
   };
 }
 
-export function login(email, password) {
+export function login({ userName, password }) {
   return dispatch => {
     dispatch(setLoginPending(true));
     dispatch(setIsAuthenticated(false));
 
-    return UsersService.login(email, password)
+    return UsersService.login(userName, password)
       .then(res => {
         const { user, token, error } = res.data;
         if (res.status === 200) {
@@ -178,6 +184,50 @@ export function register(user) {
   };
 }
 
+export function getProfile(userName) {
+  return dispatch => {
+    dispatch(getProfilePending(true));
+
+    return UsersService.getUserByUserName(userName)
+      .then(res => {
+        const { user: profile, error } = res.data;
+        if (res.status === 200) {
+          dispatch(setProfile(profile));
+        } else {
+          dispatch(handleError(error));
+        }
+      })
+      .catch(error => {
+        dispatch(handleError(error));
+      })
+      .finally(function() {
+        dispatch(getProfilePending(false));
+      });
+  };
+}
+
+export function getBand(slug) {
+  return dispatch => {
+    dispatch(getBandPending(true));
+
+    return BandsService.getBandBySlug(slug)
+      .then(res => {
+        const { band, error } = res.data;
+        if (res.status === 200) {
+          dispatch(setBand(band));
+        } else {
+          dispatch(handleError(error));
+        }
+      })
+      .catch(error => {
+        dispatch(handleError(error));
+      })
+      .finally(function() {
+        dispatch(getBandPending(false));
+      });
+  };
+}
+
 export function verify(url) {
   return dispatch => {
     dispatch(setVerifyPending(true));
@@ -216,6 +266,50 @@ function setCurrentUser(currentUser) {
   return {
     type: SET_CURRENT_USER,
     currentUser
+  };
+}
+
+//PROFILE
+function setProfilePending(profilePending) {
+  return {
+    type: SAVE_PROFILE_PENDING,
+    profilePending
+  };
+}
+
+function getProfilePending(profilePending) {
+  return {
+    type: GET_PROFILE_PENDING,
+    profilePending
+  };
+}
+
+function setProfile(profile) {
+  return {
+    type: SET_PROFILE,
+    profile
+  };
+}
+
+//BAND
+function saveBandPending(saveBandPending) {
+  return {
+    type: SAVE_BAND_PENDING,
+    saveBandPending
+  };
+}
+
+function getBandPending(getBandPending) {
+  return {
+    type: GET_BAND_PENDING,
+    getBandPending
+  };
+}
+
+function setBand(band) {
+  return {
+    type: SET_BAND,
+    band
   };
 }
 

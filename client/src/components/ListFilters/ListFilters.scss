@@ -1,0 +1,33 @@
+@import "../../styles/_variables.scss";
+
+#list-filters {
+  background-color: rgba($color-black, 0.3);
+  border-radius: 6px;
+  flex: 0 0 250px;
+  margin-right: 6px;
+  padding: 10px 20px;
+  user-select: none;
+
+  .filter {
+    margin-bottom: 20px;
+
+    .filter-header {
+      cursor: pointer;
+      color: $blue3;
+
+      &:hover {
+        color: $blue4;
+      }
+    }
+
+    .filter-multiselect-menu {
+      .bp3-popover-content {
+        width: 210px;
+      }
+      ul {
+        max-height: 200px;
+        overflow-y: auto;
+      }
+    }
+  }
+}

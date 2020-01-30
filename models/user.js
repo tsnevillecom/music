@@ -60,6 +60,11 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  avatar: {
+    type: String,
+    required: false,
+    trim: true
+  },
   createdAt: {
     type: Date,
     required: true,

@@ -16,17 +16,14 @@ export default function auth(
       return Object.assign({}, state, {
         logoutPending: action.logoutPending
       });
-
     case SET_LOGIN_PENDING:
       return Object.assign({}, state, {
         loginPending: action.loginPending
       });
-
     case SET_AUTHENTICATED:
       return Object.assign({}, state, {
         isAuthenticated: action.isAuthenticated
       });
-
     default:
       return state;
   }
