@@ -2,8 +2,8 @@
 @import "~@blueprintjs/core/src/blueprint.scss";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 
-@import "/styles/_variables";
-@import "/styles/_grid";
-@import "/styles/_mixins";
-@import "/styles/_overrides";
-@import "/styles/_theme";
+@import "./styles/_variables";
+@import "./styles/_mixins";
+@import "./styles/_grid";
+@import "./styles/_overrides";
+@import "./styles/_theme";

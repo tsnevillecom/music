@@ -22,33 +22,46 @@ function List(WrappedComponent, header) {
 
       return (
         <React.Fragment>
-          <div id="list-header">
+          <div id="page-header">
             <h2>{header}</h2>
-            <div id="list-search" className="bp3-input-group bp3-large">
+            <div id="search" className="bp3-input-group bp3-large">
               <span className="bp3-icon bp3-icon-search"></span>
               <input
-                className="bp3-input"
-                type="search"
+                className="bp3-input bp3-round"
+                type="text"
                 placeholder="Search input"
                 dir="auto"
               />
+              <div className="bp3-input-action">
+                <div className="bp3-select bp3-minimal">
+                  <select defaultValue="2">
+                    <option value="all">All</option>
+                    <option value="1">People</option>
+                    <option value="2">Bands</option>
+                    <option value="3">Venue</option>
+                    <option value="4">Classified</option>
+                  </select>
+                </div>
+                <button className="bp3-button bp3-minimal" id="search-btn">
+                  <span className="bp3-icon-standard bp3-icon-arrow-right"></span>
+                </button>
+              </div>
             </div>
-            <div className="bp3-button-group" style={{ float: "right" }}>
+            <div
+              className="bp3-button-group bp3-minimal"
+              style={{ float: "right" }}
+            >
               <button
                 onClick={() => this.setViewType("grid")}
                 className={`bp3-button bp3-icon-grid-view ${
                   view === "grid" ? "bp3-active" : ""
                 }`}
-                tabIndex="0"
-                role="button"
               ></button>
               <button
                 onClick={() => this.setViewType("table")}
                 className={`bp3-button bp3-icon-list ${
                   view === "table" ? "bp3-active" : ""
                 }`}
-                tabIndex="0"
-                role="button"
               ></button>
             </div>
           </div>

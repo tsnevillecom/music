@@ -1,24 +1,17 @@
-//Base unit used for spacing gutters
-$base-unit: 8px;
-
-//Screen Sizes
-$screen-sm: 480px;
-$screen-md: 624px;
-$screen-lg: 744px;
-
 ////////////////////////
-//The Flex Grid
+// Flex Grid https://flexgridlite.elliotdahl.com/
 ////////////////////////
+
 .grid {
   box-sizing: border-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: -webkit-box;
   display: flex;
-  -webkit-flex: 0 1 auto;
-  -ms-flex: 0 1 auto;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
   -webkit-box-flex: 0;
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   -webkit-box-orient: horizontal;
@@ -28,6 +21,7 @@ $screen-lg: 744px;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin: 0 ($base-unit * -1) 0 ($base-unit * -1);
+
   //Use this modifier to remove gutters
   &.grid-nogutter {
     margin: 0;
@@ -174,28 +168,94 @@ $screen-lg: 744px;
 //Media Queries
 //////////////////
 @media only screen and (max-width: $screen-sm) {
-  // .grid-sm {
+  .grid-sm {
+    margin: 0;
+  }
+
   .col-sm {
     flex: 100%;
     max-width: 100%;
+    padding: $base-unit * 2 0 $base-unit * 2;
   }
-  // }
+
+  .col-sm-first {
+    -webkit-box-ordinal-group: 0;
+    -ms-flex-order: -1;
+    order: -1;
+  }
+
+  .col-sm-last {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+  }
+
+  .grid-sm-reverse {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+    -ms-flex-direction: row-reverse;
+    flex-direction: row-reverse;
+  }
 }
 
 @media only screen and (max-width: $screen-md) {
-  // .grid-md {
+  .grid-md {
+    margin: 0;
+  }
+
   .col-md {
     flex: 100%;
     max-width: 100%;
+    padding: $base-unit * 2 0 $base-unit * 2;
   }
-  // }
+
+  .col-md-first {
+    -webkit-box-ordinal-group: 0;
+    -ms-flex-order: -1;
+    order: -1;
+  }
+
+  .col-md-last {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+  }
+
+  .grid-md-reverse {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+    -ms-flex-direction: row-reverse;
+    flex-direction: row-reverse;
+  }
 }
 
 @media only screen and (max-width: $screen-lg) {
-  // .grid-lg {
+  .grid-lg {
+    margin: 0;
+  }
+
   .col-lg {
     flex: 100%;
     max-width: 100%;
+    padding: $base-unit * 2 0 $base-unit * 2;
   }
-  // }
+
+  .col-lg-first {
+    -webkit-box-ordinal-group: 0;
+    -ms-flex-order: -1;
+    order: -1;
+  }
+
+  .col-lg-last {
+    -webkit-box-ordinal-group: 2;
+    -ms-flex-order: 1;
+    order: 1;
+  }
+
+  .grid-lg-reverse {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: reverse;
+    -ms-flex-direction: row-reverse;
+    flex-direction: row-reverse;
+  }
 }

@@ -1,17 +1,5 @@
 import "./App.scss";
 
-import {
-  Alignment,
-  Button,
-  Classes,
-  H5,
-  Navbar,
-  NavbarDivider,
-  NavbarGroup,
-  NavbarHeading,
-  Popover,
-  Position
-} from "@blueprintjs/core";
 import { NavLink, Route, Router, Switch } from "react-router-dom";
 import React, { Component } from "react";
 import { initState, logout } from "../../redux/actions";
@@ -19,8 +7,8 @@ import { initState, logout } from "../../redux/actions";
 import AuthenticatedRoute from "../shared/AuthenticatedRoute";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
-import Loading from "../Loading/Loading";
 import MediaPlayer from "../MediaPlayer/MediaPlayer";
+import Modal from "../Modal/Modal";
 import NonAuthenticatedRoute from "../shared/NonAuthenticatedRoute";
 import PageLoader from "../PageLoader/PageLoader";
 import Pricing from "../Pricing/Pricing";
@@ -77,27 +65,23 @@ class App extends Component {
           </NavLink>
         </li>
         <li>
-          <a
+          <button
             onClick={this.logout}
             className="bp3-menu-item bp3-popover-dismiss"
           >
             Logout
-          </a>
+          </button>
         </li>
       </ul>
     );
   }
 
   render() {
-    const { isAuthenticated, firstName, lastName } = this.props;
     const { init } = this.state;
 
     if (init) {
       return <PageLoader />;
     }
-
-    const clientId = "853fdb79a14a9ed748ec9fe482e859dd";
-    const trackId = "120912535";
 
     return (
       <Router history={history}>
@@ -112,19 +96,13 @@ class App extends Component {
               <Route exact path="/bands" component={Bands} />
               <Route exact path="/bands/:slug" component={BandProfile} />
               <Route exact path="/verify/:token" component={VerifyEmail} />
+              <AuthenticatedRoute exact path="/profile" component={Profile} />
               <AuthenticatedRoute
                 exact
-                key="profile"
-                path="/profile"
+                path="/artists/:userName"
                 component={Profile}
               />
-              <AuthenticatedRoute
-                exact
-                key="userProfile"
-                path="/users/:userName"
-                component={Profile}
-              />
-              <AuthenticatedRoute exact path="/users" component={Users} />
+              <AuthenticatedRoute exact path="/artists" component={Users} />
               <NonAuthenticatedRoute exact path="/login" component={Login} />
               <NonAuthenticatedRoute
                 exact
@@ -135,8 +113,9 @@ class App extends Component {
             </Switch>
           </div>
           <Footer />
-          <MediaPlayer clientId={clientId} trackId={trackId} />
+          <MediaPlayer />
         </main>
+        <Modal />
       </Router>
     );
   }

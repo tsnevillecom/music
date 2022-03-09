@@ -4,7 +4,9 @@ class Pricing extends Component {
   render() {
     return (
       <React.Fragment>
-        <h2>Pricing</h2>
+        <div id="page-header">
+          <h2>Pricing</h2>
+        </div>
       </React.Fragment>
     );
   }

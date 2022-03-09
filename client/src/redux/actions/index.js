@@ -1,6 +1,7 @@
 import {
   GET_BAND_PENDING,
   GET_PROFILE_PENDING,
+  HIDE_MODAL,
   REMOVE_MESSAGE,
   SAVE_BAND_PENDING,
   SAVE_PROFILE_PENDING,
@@ -14,7 +15,8 @@ import {
   SET_REGISTER_PENDING,
   SET_REGISTER_STATUS,
   SET_VERIFY_PENDING,
-  SET_VERIFY_STATUS
+  SET_VERIFY_STATUS,
+  SHOW_MODAL
 } from "../constants";
 
 import { BandsService } from "../../services/bands.service";
@@ -362,5 +364,20 @@ function setVerifyStatus(isVerified) {
   return {
     type: SET_VERIFY_STATUS,
     isVerified
+  };
+}
+
+//MODAL
+export function showModal({ modalProps, modalData }) {
+  return {
+    type: SHOW_MODAL,
+    modalProps,
+    modalData
+  };
+}
+
+export function hideModal() {
+  return {
+    type: HIDE_MODAL
   };
 }

@@ -46,11 +46,30 @@ h6 {
   background-color: rgba($color-black, 0.3);
 }
 
+.bp3-button.strong {
+  padding: 5px 20px;
+  font-weight: 700;
+}
+
+.bp3-navbar-group.spacing {
+  .bp3-button:not(:first-child) {
+    margin-left: $base-unit;
+  }
+}
+
 .clamp2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
 }
 
 .text-left {
@@ -63,4 +82,297 @@ h6 {
 
 .text-center {
   text-align: center;
+}
+
+.hidden-lt-sm {
+  @include bp($lt-sm) {
+    display: none !important;
+  }
+}
+
+.hidden-lt-md {
+  @include bp($lt-md) {
+    display: none !important;
+  }
+}
+
+.hidden-lt-lg {
+  @include bp($lt-lg) {
+    display: none !important;
+  }
+}
+
+.hidden-gt-sm {
+  @include bp($sm) {
+    display: none !important;
+  }
+}
+
+.hidden-gt-md {
+  @include bp($md) {
+    display: none !important;
+  }
+}
+
+.hidden-gt-lg {
+  @include bp($lg) {
+    display: none !important;
+  }
+}
+
+// Profile
+
+#profile {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+
+  #profile-banner {
+    align-items: flex-end;
+    background-color: rgba($color-black, 0.4);
+    background-size: auto 100%;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    box-shadow: 0px 2px 10px rgba($color-black, 0.2);
+    display: flex;
+    height: 240px;
+    padding: 20px;
+    width: 100%;
+
+    #profile-avatar {
+      border: 6px solid rgba($color-black, 0.2);
+      border-radius: 10px;
+      height: auto;
+      margin-right: 20px;
+      position: relative;
+      overflow: hidden;
+      width: 200px;
+
+      img {
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+    }
+
+    #profile-title,
+    #profile-location {
+      background-color: rgba($color-black, 0.8);
+      border-radius: 3px;
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+      padding: 5px 10px;
+    }
+
+    #profile-location {
+      font-size: 14px;
+    }
+
+    #profile-title {
+      font-size: 24px;
+    }
+
+    #profile-actions {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+
+      .bp3-button {
+        background-color: $turquoise3;
+        box-shadow: 0px 1px 2px rgba($color-black, 0.2);
+        border: 0;
+        color: $color-white;
+        font-weight: 600;
+
+        &:not(:first-child) {
+          margin-left: 5px;
+        }
+
+        &:hover {
+          background-color: $turquoise4;
+        }
+
+        &:before {
+          color: $turquoise5;
+        }
+      }
+    }
+
+    #profile-genres {
+      .bp3-tag {
+        color: $color-white;
+        background-color: rgba($color-black, 0.8);
+      }
+    }
+  }
+
+  .bp3-tab-list {
+    border-bottom: 1px solid rgba($color-black, 0.2);
+    margin-bottom: 20px;
+
+    .bp3-tab {
+      color: $gray3;
+      font-size: 16px;
+      margin-bottom: -2px;
+      padding: 0 5px 5px;
+
+      &[aria-selected="true"] {
+        color: $color-white;
+        box-shadow: inset 0 -3px 0 $color-white;
+      }
+    }
+  }
+
+  #songs-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+
+    .song {
+      align-items: center;
+      border-bottom: 1px solid rgba($color-black, 0.4);
+      box-sizing: content-box;
+      cursor: pointer;
+      display: flex;
+      height: 40px;
+      padding: $base-unit 0;
+
+      &:first-child {
+        border-top: 1px solid rgba($color-black, 0.4);
+      }
+
+      .song-image {
+        border-radius: 3px;
+        height: 34px;
+        overflow: hidden;
+        width: 34px;
+      }
+
+      .song-name {
+        flex: 1;
+        padding: 0 20px;
+      }
+
+      .song-length {
+        font-size: 12px;
+        padding: 0 20px;
+      }
+
+      .song-play {
+        background-color: rgba($color-white, 0.9);
+        border-radius: 50%;
+        color: $color-black;
+        display: none;
+        height: 16px;
+        left: 20px;
+        padding: 4px;
+        position: absolute;
+        width: 16px;
+        z-index: 2;
+
+        svg {
+          margin-left: 1px;
+        }
+      }
+
+      &:hover {
+        background-color: rgba($color-black, 0.05);
+
+        .song-play {
+          display: block;
+        }
+      }
+    }
+  }
+
+  #profile-info {
+    background-color: rgba($color-black, 0.1);
+    padding: 15px 20px;
+  }
+
+  #profile-sidebar {
+    background-color: rgba($color-black, 0.2);
+    display: flex;
+    flex-direction: column;
+    width: 420px;
+
+    > div {
+      flex: 1;
+      min-height: 100%;
+      padding: $base-unit * 2 $base-unit * 4;
+
+      > div {
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  #profile-links {
+    a {
+      color: $gray4;
+      display: flex;
+      margin-bottom: 10px;
+
+      span {
+        &:first-child {
+          font-size: 18px;
+          margin-right: $base-unit * 2;
+        }
+
+        &:last-child {
+          flex: 1;
+        }
+      }
+
+      &:hover {
+        color: $violet5;
+        text-decoration: none;
+      }
+    }
+  }
+
+  #profile-members-list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    > a {
+      align-items: center;
+      color: $color-white;
+      display: flex;
+      margin-bottom: $base-unit;
+      text-decoration: none;
+
+      .member-image {
+        border: 1px solid rgba($color-black, 0.2);
+        border-radius: $base-unit;
+        display: block;
+        height: 40px;
+        margin-right: 10px;
+        overflow: hidden;
+        width: 40px;
+      }
+
+      .member-name {
+        flex: 1;
+        font-weight: 700;
+      }
+
+      .member-role {
+        font-size: 11px;
+      }
+
+      &:hover {
+        .member-name {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
 }

@@ -1,22 +1,9 @@
 @import "../../styles/_variables.scss";
 
-#list-header {
-  align-items: center;
-  border-bottom: 1px solid rgba($color-black, 0.3);
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-
-  #list-search {
-    flex: 1;
-    max-width: 50%;
-  }
-}
-
 #list {
   width: 100%;
   display: flex;
+  padding: 10px;
 
   .card-content {
     background-color: rgba($color-black, 0.4);
@@ -67,15 +54,6 @@
       position: relative;
       overflow: hidden;
       width: 90%;
-
-      img {
-        border-radius: 5px;
-        display: block;
-        height: 100%;
-        transform: scale(0.99, 0.99);
-        transition: transform 100ms ease-out;
-        width: 100%;
-      }
     }
 
     .actions {
@@ -84,14 +62,6 @@
 
       > div {
         margin-bottom: 10px;
-      }
-    }
-
-    &:hover {
-      .avatar {
-        img {
-          transform: scale(1, 1);
-        }
       }
     }
   }

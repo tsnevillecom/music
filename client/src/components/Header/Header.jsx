@@ -33,12 +33,12 @@ class Header extends Component {
           </NavLink>
         </li>
         <li>
-          <a
+          <button
             onClick={this.logout}
             className="bp3-menu-item bp3-popover-dismiss"
           >
             Logout
-          </a>
+          </button>
         </li>
       </ul>
     );
@@ -50,7 +50,9 @@ class Header extends Component {
     return (
       <header id="header">
         <nav>
-          <div className="bp3-navbar-heading">Band Manager</div>
+          <div className="bp3-navbar-heading">
+            <span className="bp3-icon-standard bp3-icon-settings" /> FREQZ.io
+          </div>
           <div className="bp3-navbar-group">
             <NavLink exact to="/" className="bp3-button bp3-minimal">
               Home
@@ -65,30 +67,36 @@ class Header extends Component {
             {isAuthenticated && (
               <React.Fragment>
                 <span className="bp3-navbar-divider"></span>
-                <NavLink to="/users" className="bp3-button bp3-minimal">
-                  Users
+                <NavLink to="/artists" className="bp3-button bp3-minimal">
+                  Musicians
                 </NavLink>
               </React.Fragment>
             )}
 
             {isAuthenticated && (
-              <React.Fragment>
-                <span className="bp3-navbar-divider"></span>
-                <NavLink to="/bands" className="bp3-button bp3-minimal">
-                  Bands
-                </NavLink>
-              </React.Fragment>
+              <NavLink to="/bands" className="bp3-button bp3-minimal">
+                Bands
+              </NavLink>
+            )}
+
+            {isAuthenticated && (
+              <NavLink to="/talent-seekers" className="bp3-button bp3-minimal">
+                Talent Seekers
+              </NavLink>
             )}
           </div>
 
-          <div className="bp3-navbar-group">
+          <div className="bp3-navbar-group spacing">
             {!isAuthenticated && (
               <React.Fragment>
-                <NavLink to="/login" className="bp3-button bp3-minimal">
-                  Login
-                </NavLink>
                 <NavLink to="/register" className="bp3-button bp3-minimal">
                   Register
+                </NavLink>
+                <NavLink
+                  to="/login"
+                  className="bp3-button bp3-intent-primary strong"
+                >
+                  Login
                 </NavLink>
               </React.Fragment>
             )}

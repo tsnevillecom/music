@@ -1,8 +1,9 @@
-import { HTTP_PORT } from "./config";
-import bodyParser from "body-parser";
-import express from "express";
-import path from "path";
+const { HTTP_PORT } = require("./config");
+const bodyParser = require("body-parser");
+const express = require("express");
+const path = require("path");
 require("./db/mongoose");
+
 const authenticate = require("./middleware/auth");
 const app = express();
 
@@ -11,12 +12,12 @@ app.use(express.static(path.join(__dirname, "client", "build")));
 app.use(express.json());
 
 //Routes
-const userRoutes = require("./router/user");
-const authRoutes = require("./router/auth");
-const bandRoutes = require("./router/bands");
-app.use(userRoutes);
+const userRoutes = require("./router/users.route");
+const authRoutes = require("./router/auth.route");
+const bandRoutes = require("./router/bands.route");
 app.use(authRoutes);
-app.use(bandRoutes);
+app.use("/users", userRoutes);
+app.use("/bands", bandRoutes);
 
 app.listen(HTTP_PORT, () => {
   console.log(`Server listening at port ${HTTP_PORT}.`);

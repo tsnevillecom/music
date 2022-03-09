@@ -21,14 +21,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const {
-      handleSubmit,
-      pristine,
-      reset,
-      touch,
-      submitting,
-      loginPending
-    } = this.props;
+    const { handleSubmit, pristine, submitting, loginPending } = this.props;
 
     return (
       <div className="login">

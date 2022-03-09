@@ -1,6 +1,7 @@
-import { Checkbox, Colors, Icon } from "@blueprintjs/core";
-import React, { Component } from "react";
 import { bool, object, string } from "prop-types";
+
+import { Checkbox } from "@blueprintjs/core";
+import React from "react";
 
 const RenderCheckbox = ({
   input: { checked, onChange, ...input },

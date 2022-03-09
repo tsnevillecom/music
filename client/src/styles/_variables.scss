@@ -1,5 +1,16 @@
 @import "~@blueprintjs/core/src/common/_colors.scss";
 @import "~@blueprintjs/core/src/common/_color-aliases.scss";
 
+$app-max-width: 1280px;
+
 $color-white: #fff;
 $color-black: #000;
+
+//Base unit used for spacing gutters
+$base-unit: 5px;
+
+//Screen Sizes
+$screen-sm: 576px;
+$screen-md: 768px;
+$screen-lg: 992px;
+$screen-xl: 1200px;

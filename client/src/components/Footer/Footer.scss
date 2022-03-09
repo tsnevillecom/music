@@ -1,9 +1,33 @@
 @import "../../styles/_variables.scss";
+@import "../../styles/_mixins.scss";
 
 footer {
+  justify-content: center;
   background-color: rgba($color-black, 0.3);
-  padding: 40px 0 60px;
+  display: flex;
+  padding: 40px 0 80px;
   width: 100%;
+
+  @include bp($lt-md) {
+    padding-top: 0;
+  }
+
+  .col {
+    @include bp($lt-md) {
+      text-align: center;
+    }
+  }
+
+  .brand {
+    display: flex;
+    flex-direction: column;
+
+    @include bp($lt-md) {
+      background-color: rgba($color-black, 0.1);
+      border-bottom: 1px solid rgba($color-black, 0.2);
+      margin-bottom: 20px;
+    }
+  }
 
   h4 {
     color: rgba($violet5, 0.8);
@@ -29,6 +53,11 @@ footer {
   }
 
   .copyright {
-    margin-top: 40px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    opacity: 0.5;
+    padding: 10px 0;
   }
 }

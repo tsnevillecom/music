@@ -1,0 +1,49 @@
+.image-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 100%;
+  position: relative;
+
+  .float-up {
+    position: absolute;
+    z-index: 1;
+  }
+
+  > svg {
+    border-radius: 5px;
+    height: auto;
+    position: absolute;
+    top: 0;
+    transition: opacity 750ms ease-out;
+    width: 100%;
+
+    rect {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .bp3-spinner,
+  .bp3-icon-disable {
+    margin-top: -50%;
+  }
+
+  img {
+    display: block;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    transition: opacity 750ms ease-out;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .fadeOut {
+    opacity: 0;
+  }
+
+  .fadeIn {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,25 @@
+.modal {
+  .bp3-heading {
+    font-family: inherit;
+    text-transform: none;
+  }
+
+  .bp3-dialog-footer {
+    display: flex;
+
+    > div {
+      &:first-child {
+        flex: 1;
+      }
+
+      &:last-child {
+        display: flex;
+        .bp3-button {
+          margin-left: 10px;
+          min-width: 60px;
+          flex: 1;
+        }
+      }
+    }
+  }
+}

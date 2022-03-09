@@ -1,9 +1,144 @@
+@import "../../styles/_mixins.scss";
 @import "../../styles/_variables.scss";
 
 #media-player {
-  background-color: rgba($color-black, 0.3);
+  background-color: rgba($color-black, 0.85);
   bottom: 0;
+  display: flex;
   height: 60px;
   position: fixed;
+  user-select: none;
   width: 100%;
+  @include z-index(media-player);
+
+  .active-blue {
+    color: $blue3;
+  }
+
+  .active-red {
+    color: $red3;
+  }
+
+  #like-btn {
+    cursor: pointer;
+    font-size: 24px;
+    padding: 6px 10px;
+  }
+
+  #repeat-btn {
+    cursor: pointer;
+    font-size: 13px;
+    padding: 6px 9px;
+  }
+
+  .audio-player {
+    align-items: center;
+    text-align: center;
+    display: flex;
+    flex-flow: row;
+    margin: 0 auto;
+    max-width: $app-max-width;
+    padding: 0 10px;
+    width: 100%;
+
+    .audio-player-controls {
+      align-items: center;
+      display: flex;
+    }
+
+    .track-info {
+      align-items: center;
+      display: flex;
+      flex: 2;
+
+      @include bp($lt-md) {
+        flex: none;
+      }
+
+      .track-album-image {
+        background-size: cover;
+        border: 3px solid rgba($color-white, 0.2);
+        border-radius: 6px;
+        margin: 0 10px 0 20px;
+        min-height: 40px;
+        overflow: hidden;
+        width: 40px;
+
+        img {
+          height: 100%;
+          width: 100%;
+          display: block;
+        }
+      }
+
+      .track-meta {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        text-align: left;
+
+        .track-title {
+          color: $blue3;
+          font-size: 13px;
+        }
+
+        .track-artist {
+          color: rgba($color-white, 0.4);
+          font-size: 11px;
+
+          &:hover {
+            color: rgba($color-white, 0.6);
+          }
+        }
+      }
+    }
+
+    .track {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 2;
+
+      .track-scrubber {
+        display: flex;
+        flex: 1;
+
+        .track-timecode {
+          font-size: 11px;
+          width: 80px;
+        }
+
+        @include bp($xs) {
+          justify-content: center;
+          .track-timecode {
+            width: auto;
+            &:first-child::after {
+              content: "/";
+            }
+          }
+        }
+
+        #progress-bar {
+          background-color: rgba($color-white, 0.4);
+          border-radius: 5px;
+          cursor: pointer;
+          flex: 1;
+          height: 2px;
+          margin: 7px 0;
+          overflow: visible;
+
+          #progress-bar-handle {
+            background-color: $blue3;
+            border: 2px solid $color-black;
+            border-radius: 50%;
+            height: 12px;
+            margin: -5px 0 0 -6px;
+            position: absolute;
+            width: 12px;
+            @include z-index(default);
+          }
+        }
+      }
+    }
+  }
 }

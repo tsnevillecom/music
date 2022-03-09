@@ -1,4 +1,4 @@
-import { Colors, Icon, InputGroup } from "@blueprintjs/core";
+import { Colors, Icon } from "@blueprintjs/core";
 import { bool, number, object, string } from "prop-types";
 
 import React from "react";

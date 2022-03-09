@@ -2,9 +2,8 @@ import "./Profile.scss";
 
 import React, { Component } from "react";
 
-import ImageLoader from "../shared/ImageLoader";
+import ImageLoader from "../ImageLoader/ImageLoader";
 import { Link } from "react-router-dom";
-import { UsersService } from "../../services/users.service";
 import { connect } from "react-redux";
 import { getProfile } from "../../redux/actions";
 import moment from "moment";
@@ -47,9 +46,11 @@ class Profile extends Component {
 
     return (
       <div id="profile">
-        <h2>
-          {profile.firstName} {profile.lastName}
-        </h2>
+        <div id="page-header">
+          <h2>
+            {profile.firstName} {profile.lastName}
+          </h2>
+        </div>
         {profile && (
           <div className="grid">
             <div className="col col-4">
@@ -64,7 +65,7 @@ class Profile extends Component {
               {profile.bands && (
                 <React.Fragment>
                   <h5>Bands</h5>
-                  <div className="band-members">
+                  <div id="profile-members-list">
                     {profile.bands.map((band, index) => {
                       return (
                         <Link

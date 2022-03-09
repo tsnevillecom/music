@@ -2,7 +2,7 @@ import "./Users.scss";
 
 import React, { Component } from "react";
 
-import ImageLoader from "../shared/ImageLoader";
+import ImageLoader from "../ImageLoader/ImageLoader";
 import { Link } from "react-router-dom";
 import List from "../List/List";
 import { UsersService } from "../../services/users.service";
@@ -33,7 +33,10 @@ class Users extends Component {
           <div className="card-content bp3-elevation-2">
             <div className="avatar">
               <Link
-                to={{ pathname: `/users/${user.userName}`, state: { user } }}
+                to={{
+                  pathname: `/artists/${user.userName}`,
+                  state: { user }
+                }}
                 role="button"
                 tabIndex={0}
               >
@@ -43,7 +46,10 @@ class Users extends Component {
             <div className="card-body">
               <div className="title">
                 <Link
-                  to={{ pathname: `/users/${user.userName}`, state: { user } }}
+                  to={{
+                    pathname: `/artists/${user.userName}`,
+                    state: { user }
+                  }}
                   className="clamp2"
                   role="button"
                   tabIndex={0}
@@ -58,31 +64,20 @@ class Users extends Component {
 
               <div className="actions">
                 <div className="bp3-button-group bp3-fill bp3-minimal">
-                  <a
-                    className="bp3-button bp3-icon-new-person"
-                    role="button"
-                    tabIndex={0}
-                  >
+                  <button className="bp3-button bp3-icon-new-person">
                     Follow
-                  </a>
-                  <a
-                    className="bp3-button bp3-icon-envelope"
-                    role="button"
-                    tabIndex={0}
-                  >
+                  </button>
+                  <button className="bp3-button bp3-icon-envelope">
                     Contact
-                  </a>
-                  <a
-                    className="bp3-button bp3-icon-play"
-                    role="button"
-                    tabIndex={0}
-                  >
-                    Play
-                  </a>
+                  </button>
+                  <button className="bp3-button bp3-icon-play">Play</button>
                 </div>
 
                 <Link
-                  to={{ pathname: `/users/${user.userName}`, state: { user } }}
+                  to={{
+                    pathname: `/artists/${user.userName}`,
+                    state: { user }
+                  }}
                   className="bp3-button bp3-intent-primary bp3-fill bp3-icon-person"
                   role="button"
                   tabIndex={0}
@@ -102,6 +97,6 @@ class Users extends Component {
   }
 }
 
-Users = List(Users, "Users");
+Users = List(Users, "Musicians");
 
 export default Users;

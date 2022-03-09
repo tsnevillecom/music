@@ -21,8 +21,8 @@ class VerifyEmail extends Component {
   }
 
   render() {
-    const { token, url } = this.state;
-    const { verifyPending, isVerified } = this.props;
+    const { token } = this.state;
+    const { isVerified } = this.props;
 
     return (
       <div>

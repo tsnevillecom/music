@@ -4,58 +4,74 @@ import { FaFacebookSquare, FaTwitterSquare } from "react-icons/fa";
 import React, { Component } from "react";
 
 import { AiFillInstagram } from "react-icons/ai";
+import { NavLink } from "react-router-dom";
 
 class Footer extends Component {
   render() {
     return (
       <footer>
-        <div className="container">
+        <div className="container container-no-margin-lt-md">
           <div className="grid">
-            <div className="col col-grow-2 col-md col-middle text-center">
-              <div className="company">Band Manager</div>
+            <div className="col col-grow-2 col-md text-center brand">
+              <div className="company">
+                <span className="bp3-icon-standard bp3-icon-settings" />{" "}
+                FREQZ.io
+              </div>
               <div className="bp3-text-muted">Indianapolis, IN 46250</div>
-              <div className="bp3-text-muted bp3-text-small copyright">
+              <div className="bp3-text-muted bp3-text-small copyright hidden-lt-md">
                 &copy; Copyright 2020 TSN
               </div>
             </div>
             <div className="col col-grow-1 col-sm">
-              <a className="bold" href="#">
+              <NavLink to="#" onClick={e => e.preventDefault()}>
                 Home
-              </a>
-              <a className="bold" href="#">
+              </NavLink>
+              <NavLink to="#" onClick={e => e.preventDefault()}>
                 About
-              </a>
-              <a className="bold" href="#">
+              </NavLink>
+              <NavLink to="#" onClick={e => e.preventDefault()}>
                 Pricing
-              </a>
-              <a className="bold" href="#">
+              </NavLink>
+              <NavLink to="#" onClick={e => e.preventDefault()}>
                 Users
-              </a>
-              <a className="bold" href="#">
+              </NavLink>
+              <NavLink to="#" onClick={e => e.preventDefault()}>
                 Bands
-              </a>
-              <a className="bold" href="#">
+              </NavLink>
+              <NavLink to="#" onClick={e => e.preventDefault()}>
                 Contact Us
-              </a>
+              </NavLink>
             </div>
             <div className="col col-grow-1 col-sm">
               <h4>Company</h4>
-              <a href="">Lorem Ipsum</a>
-              <a href="">Lorem Ipsum</a>
-              <a href="">Lorem Ipsum</a>
+              <NavLink to="#" onClick={e => e.preventDefault()}>
+                Lorem Ipsum
+              </NavLink>
+              <NavLink to="#" onClick={e => e.preventDefault()}>
+                Lorem Ipsum
+              </NavLink>
+              <NavLink to="#" onClick={e => e.preventDefault()}>
+                Lorem Ipsum
+              </NavLink>
             </div>
 
             <div className="col col-grow-1 col-sm">
               <h4>Follow</h4>
-              <a href="">
+              <NavLink to="#" onClick={e => e.preventDefault()}>
                 <FaFacebookSquare /> Facebook
-              </a>
-              <a href="">
+              </NavLink>
+              <NavLink to="#" onClick={e => e.preventDefault()}>
                 <AiFillInstagram /> Instagram
-              </a>
-              <a href="">
+              </NavLink>
+              <NavLink to="#" onClick={e => e.preventDefault()}>
                 <FaTwitterSquare /> Twitter
-              </a>
+              </NavLink>
+            </div>
+
+            <div className="col col-12 hidden-gt-md">
+              <div className="bp3-text-muted bp3-text-small copyright">
+                &copy; Copyright 2020 TSN
+              </div>
             </div>
           </div>
         </div>

@@ -1,8 +1,8 @@
-import { Button, Checkbox, Colors, Icon, MenuItem } from "@blueprintjs/core";
-import React, { Component } from "react";
+import { Button, MenuItem } from "@blueprintjs/core";
 import { array, bool, func, string } from "prop-types";
 
 import { MultiSelect } from "@blueprintjs/select";
+import React from "react";
 import { difference } from "underscore";
 
 const MultiSelectFilter = ({

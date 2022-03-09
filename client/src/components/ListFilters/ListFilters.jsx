@@ -1,14 +1,10 @@
 import "./ListFilters.scss";
 
-import { Button, Checkbox, Collapse, Icon, MenuItem } from "@blueprintjs/core";
-import { ItemRenderer, MultiSelect } from "@blueprintjs/select";
 import React, { Component } from "react";
 
 import { GENRES } from "../../constants";
 import MultiSelectFilter from "../Filters/MultiSelectFilter";
-import RenderCheckbox from "../shared/RenderCheckbox";
 import { connect } from "react-redux";
-import { without } from "underscore";
 
 class ListFilters extends Component {
   constructor() {

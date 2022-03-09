@@ -1,3 +1,14 @@
+import {
+  FaBandcamp,
+  FaFacebookSquare,
+  FaSoundcloud,
+  FaTwitter,
+  FaYoutube
+} from "react-icons/fa";
+import { GoGlobe, GoStar } from "react-icons/go";
+
+import { MdWeb } from "react-icons/md";
+
 export const GENRES = [
   "Acoustic",
   "Alternative",
@@ -51,3 +62,14 @@ export const GENRES = [
   "Vocal",
   "World"
 ];
+
+export const LINK_ICONS = {
+  facebook: FaFacebookSquare,
+  soundcloud: FaSoundcloud,
+  twitter: FaTwitter,
+  website: GoGlobe,
+  bandcamp: FaBandcamp,
+  youtube: FaYoutube,
+  reverbnation: GoStar,
+  other: MdWeb
+};
